@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+      <bean id="dataSource"
+      class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:mysql://localhost:3306/intutics_db</value>
+        </property>
+        <property name="username">
+            <value>root</value>
+        </property>
+        <property name="password">
+            <value>root</value>
+        </property>
+      </bean>
+      
+      <bean id="dataAccessDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<bean
+				class="com.acunnoconnect.dataaccess.dao.impl.DataAccessDAOImpl">
+				<property name="dataSource">
+					<ref bean="dataSource" />
+				</property>
+			</bean>
+		</property>
+		<property name="proxyInterfaces">
+			<value>com.acunnoconnect.dataaccess.dao.DataAccessDAO</value>
+		</property>
+	</bean>
+      
+      
+      <bean id="dataAccessServiceManager" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<bean
+				class="com.acunnoconnect.dataaccess.service.impl.DataAccessServiceManagerImpl">
+				<property name="dataAccessDao">
+					<ref bean="dataAccessDao" />
+				</property>
+			</bean>
+		</property>
+		<property name="proxyInterfaces">
+			<value>com.acunnoconnect.dataaccess.service.DataAccessServiceManager</value>
+		</property>
+	</bean>
+	
+	
+	
+	
+</beans>
