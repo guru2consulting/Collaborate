@@ -11,6 +11,7 @@
 		<h2>
 			${message} ${name}
 		</h2>
+		
 	</center>
 </body>
 </html>
